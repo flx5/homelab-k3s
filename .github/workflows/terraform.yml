@@ -47,6 +47,9 @@ jobs:
       run: sudo adduser $USER libvirt
     - name: Add user to kvm group
       run: sudo adduser $USER kvm
+
+    - name: Reload user groups
+      run: exec sudo su -l $USER
       
     - name: Terraform Plan
       run: terraform plan -input=false
