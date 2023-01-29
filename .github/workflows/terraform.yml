@@ -43,6 +43,10 @@ jobs:
       
     - name: Install libvirt
       run: sudo apt-get install -y libvirt-daemon-system
-    - name: Setup Permissions
+    - name: Add user to libvirt group
       run: sudo adduser $USER libvirt
-
+    - name: Add user to kvm group
+      run: sudo adduser $USER kvm
+      
+    - name: Terraform Plan
+      run: terraform plan -input=false
