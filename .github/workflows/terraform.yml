@@ -40,3 +40,9 @@ jobs:
 
     - name: Terraform Validate
       run: terraform validate
+      
+    - name: Install libvirt
+      run: sudo apt-get install -y libvirt-daemon-system
+    - name: Setup Permissions
+      run: sudo adduser $USER libvirt
+
