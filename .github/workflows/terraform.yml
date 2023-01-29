@@ -50,6 +50,9 @@ jobs:
 
     - name: Reload user groups
       run: exec sudo su -l $USER
-      
+    - name: List user groups
+      run: groups
+    - name: List libvirt sockets
+      run: ls -l /var/run/libvirt/
     - name: Terraform Plan
       run: terraform plan -input=false
