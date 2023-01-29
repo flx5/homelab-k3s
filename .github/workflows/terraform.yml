@@ -45,9 +45,5 @@ jobs:
       run: sudo apt-get install -y libvirt-daemon-system
     - name: Add user to libvirt group
       run: sudo adduser $USER libvirt
-    - name: Print Dir
-      run: pwd && ls -l
-    - name: List user groups
-      run: sudo -g libvirt pwd && ls -l
-    - name: Terraform Plan
-      run: sudo -g libvirt terraform plan -input=false
+    - name: Terraform apply
+      run: sudo -g libvirt terraform apply -input=yes
