@@ -1,5 +1,5 @@
 data "ct_config" "coreos-k3s-server" {
-  content      = templatefile("coreos-k3s.yaml", {
+  content = templatefile("coreos-k3s.yaml", {
     K3S_ARGS = {
       K3S_TOKEN = random_password.k3s_token.result
     }
@@ -15,7 +15,7 @@ data "ct_config" "coreos-k3s-server" {
 }
 
 resource "libvirt_ignition" "coreos-k3s-server" {
-  name = "ignition_server"
+  name    = "ignition_server"
   content = data.ct_config.coreos-k3s-server.rendered
 }
 

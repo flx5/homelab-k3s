@@ -1,9 +1,9 @@
 locals {
-  image_cache_dir = abspath(".terraform/image_cache")
-  disk_info = jsondecode(data.http.coreos-stable.response_body)["architectures"]["x86_64"]["artifacts"]["qemu"]["formats"]["qcow2.xz"]["disk"]
-  download_url = local.disk_info["location"]
+  image_cache_dir    = abspath(".terraform/image_cache")
+  disk_info          = jsondecode(data.http.coreos-stable.response_body)["architectures"]["x86_64"]["artifacts"]["qemu"]["formats"]["qcow2.xz"]["disk"]
+  download_url       = local.disk_info["location"]
   extracted_filename = trimsuffix(basename(local.download_url), ".xz")
-  image_path = "${local.image_cache_dir}/${local.extracted_filename}"
+  image_path         = "${local.image_cache_dir}/${local.extracted_filename}"
 }
 
 
@@ -30,7 +30,7 @@ resource "null_resource" "download-extract-image-fedora-coreos" {
   triggers = {
     source = data.http.coreos-stable.response_body
   }
-  
+
 
   lifecycle {
     postcondition {

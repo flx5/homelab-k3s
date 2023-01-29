@@ -1,9 +1,9 @@
 
 data "ct_config" "coreos-k3s-agent" {
-  content      = templatefile("coreos-k3s.yaml", {
+  content = templatefile("coreos-k3s.yaml", {
     K3S_ARGS = {
       K3S_TOKEN = random_password.k3s_token.result
-      K3S_URL = "https://${libvirt_domain.coreos-k3s-server.network_interface.0.addresses.0}:6443"
+      K3S_URL   = "https://${libvirt_domain.coreos-k3s-server.network_interface.0.addresses.0}:6443"
     }
     MANIFESTS = {
 
@@ -17,7 +17,7 @@ data "ct_config" "coreos-k3s-agent" {
 }
 
 resource "libvirt_ignition" "coreos-k3s-agent" {
-  name = "ignition_agent"
+  name    = "ignition_agent"
   content = data.ct_config.coreos-k3s-agent.rendered
 }
 
