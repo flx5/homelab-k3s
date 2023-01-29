@@ -48,6 +48,6 @@ jobs:
     - name: Print Dir
       run: pwd && ls -l
     - name: List user groups
-      run: sudo su -l $USER -c 'pwd && ls -l'
+      run: sudo -g libvirt pwd && ls -l
     - name: Terraform Plan
-      run: sudo su -l $USER -c 'terraform plan -input=false'
+      run: sudo -g libvirt terraform plan -input=false
