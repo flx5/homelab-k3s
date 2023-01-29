@@ -45,14 +45,9 @@ jobs:
       run: sudo apt-get install -y libvirt-daemon-system
     - name: Add user to libvirt group
       run: sudo adduser $USER libvirt
-    - name: Add user to kvm group
-      run: sudo adduser $USER kvm
-
-    - name: Reload user groups
-      run: exec sudo su -l $USER
     - name: List user groups
-      run: groups
+      run: sudo su -l $USER -c groups
     - name: List libvirt sockets
       run: ls -l /var/run/libvirt/
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: sudo su -l $USER -c 'terraform plan -input=false'
