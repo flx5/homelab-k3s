@@ -45,6 +45,8 @@ jobs:
       run: sudo apt-get install -y libvirt-daemon-system
     - name: Add user to libvirt group
       run: sudo adduser $USER libvirt
+    - name: Create default pool
+      run: sudo virsh pool-define-as --name default --type dir --target /var/lib/libvirt/images
     - name: Start default pool
       run: sudo -g libvirt virsh pool-start default
     - name: Terraform Plan
