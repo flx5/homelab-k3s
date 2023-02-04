@@ -56,4 +56,4 @@ jobs:
     - name: Terraform apply
       # The only way to disable kvm acceleration (github actions does not support nested virtualization at this thime)
       # https://github.com/dmacvicar/terraform-provider-libvirt/issues/738
-      run: sudo -g libvirt-qemu TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu terraform apply tfplan
+      run: sudo -g libvirt TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu terraform apply tfplan
