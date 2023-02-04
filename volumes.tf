@@ -4,8 +4,12 @@ module "coreos-image" {
 
 resource "null_resource" "debug" {
   provisioner "local-exec" {
-    command = "ls '${dirname(module.coreos-image.image_path)}'"
+    command = "tree"
   }
+
+  depends_on = [
+    module.coreos-image
+  ]
 }
 
 resource "libvirt_volume" "coreos" {
