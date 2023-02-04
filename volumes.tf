@@ -10,3 +10,13 @@ resource "libvirt_volume" "coreos" {
     module.coreos-image
   ]
 }
+
+resource "null_resource" "debug" {
+  provisioner "local-exec" {
+    command = "ls -l /var/lib/libvirt/images/os_image-coreos.qcow2"
+  }
+
+  depends_on = [
+    libvirt_volume.coreos
+  ]
+}
