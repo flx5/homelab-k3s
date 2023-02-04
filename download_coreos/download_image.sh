@@ -16,3 +16,6 @@ fi
 echo "Downloading Image"
 
 wget "$URL" -qO- | unxz > "$IMAGE_CACHE/$FILENAME"
+
+ls "$IMAGE_CACHE"
+stat "$IMAGE_CACHE/$FILENAME"
