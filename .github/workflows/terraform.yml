@@ -52,7 +52,7 @@ jobs:
     - name: List pools
       run: sudo virsh pool-list --all
     - name: Start default pool
-      run: sudo -g libvirt virsh pool-start default
+      run: sudo virsh pool-start default
     - name: Terraform Plan
       run: sudo -g libvirt terraform plan -out tfplan
     - name: Terraform apply
