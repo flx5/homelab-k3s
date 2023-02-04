@@ -4,7 +4,7 @@ module "coreos-image" {
 
 resource "null_resource" "debug" {
   provisioner "local-exec" {
-    command = "tree"
+    command = "pwd && tree .terraform"
   }
 
   depends_on = [
