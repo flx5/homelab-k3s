@@ -50,8 +50,8 @@ jobs:
     - name: Start default pool
       run: sudo virsh pool-start default
     - name: Terraform Plan
-      run: sudo terraform plan -out tfplan
+      run: sudo -u libvirt-qemu terraform plan -out tfplan
     - name: Terraform apply
       # The only way to disable kvm acceleration (github actions does not support nested virtualization at this thime)
       # https://github.com/dmacvicar/terraform-provider-libvirt/issues/738
-      run: sudo TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu terraform apply tfplan
+      run: sudo -u libvirt-qemu TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu terraform apply tfplan
