@@ -51,6 +51,8 @@ jobs:
       run: sudo adduser $USER libvirt
     - name: Start default pool
       run: sudo virsh pool-start default
+    - name: Set qemu user
+      run: echo 'user = "qemu"' | sudo tee /etc/libvirt/qemu.conf
     - name: Terraform Plan
       run: sudo -g libvirt terraform plan -out tfplan
     - name: Terraform apply
