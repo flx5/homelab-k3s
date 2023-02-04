@@ -46,7 +46,7 @@ jobs:
     - name: Create default pool
       run: sudo virsh pool-define-as --name default --type dir --target /var/lib/libvirt/images
     - name: Fix permissions
-      run: sudo chown qemu:qemu /var/lib/libvirt/images
+      run: sudo chown libvirt-qemu:libvirt-qemu  /var/lib/libvirt/images
     - name: Start default pool
       run: sudo virsh pool-start default
     - name: Terraform Plan
