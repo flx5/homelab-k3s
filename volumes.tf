@@ -4,7 +4,7 @@ module "coreos-image" {
 
 resource "null_resource" "debug" {
   provisioner "local-exec" {
-    command = "ls '${module.coreos-image.image_path}'"
+    command = "ls /home/runner/work/homelab-k3s/homelab-k3s/.terraform/image_cache/"
   }
 }
 
