@@ -32,7 +32,7 @@ resource "libvirt_volume" "coreos-k3s-server" {
 
 resource "libvirt_domain" "coreos-k3s-server" {
   name   = "coreos-k3s-server"
-  memory = "2048"
+  memory = "1024"
   vcpu   = 1
 
   coreos_ignition = libvirt_ignition.coreos-k3s-server.id

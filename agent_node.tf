@@ -34,7 +34,7 @@ resource "libvirt_volume" "coreos-k3s-agent" {
 
 resource "libvirt_domain" "coreos-k3s-agent" {
   name   = "coreos-k3s-agent"
-  memory = "2048"
+  memory = "1024"
   vcpu   = 1
 
   coreos_ignition = libvirt_ignition.coreos-k3s-agent.id
