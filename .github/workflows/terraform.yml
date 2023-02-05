@@ -51,8 +51,11 @@ jobs:
       run: sudo adduser $USER libvirt
     - name: Start default pool
       run: sudo virsh pool-start default
-    - name: Set qemu user
+      # https://github.com/dmacvicar/terraform-provider-libvirt/issues/546
+    - name: Disable security driver
       run: echo 'security_driver = "none"' | sudo tee /etc/libvirt/qemu.conf
+    - name: Restart libvirtd
+      run: sudo systemctl restart libvirtd
     - name: Terraform Plan
       run: sudo -g libvirt terraform plan -out tfplan
     - name: Terraform apply
