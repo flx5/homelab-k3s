@@ -30,6 +30,11 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
@@ -56,9 +61,8 @@ jobs:
       run: echo 'security_driver = "none"' | sudo tee /etc/libvirt/qemu.conf
     - name: Restart libvirtd
       run: sudo systemctl restart libvirtd
-    - name: Terraform Plan
-      run: sudo -g libvirt terraform plan -out tfplan
-    - name: Terraform apply
+    - name: Terratest
       # The only way to disable kvm acceleration (github actions does not support nested virtualization at this thime)
       # https://github.com/dmacvicar/terraform-provider-libvirt/issues/738
-      run: sudo -g libvirt TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu terraform apply tfplan
+      run: sudo -g libvirt TERRAFORM_LIBVIRT_TEST_DOMAIN_TYPE=qemu  go test -v -timeout 30m
+      working-directory: test
