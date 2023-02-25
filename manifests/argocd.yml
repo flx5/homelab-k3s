@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: argocd
+  namespace: kube-system
+spec:
+  repo: https://argoproj.github.io/argo-helm
+  chart: argo-cd
+  targetNamespace: argocd
+  valuesContent: |-
+    server:
+      ingress:
+        enabled: true
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+        paths:
+          - /argocd
+    configs:
+      params:
+        "server.insecure": true
+        "server.basehref": /argocd
+        "server.rootpath": /argocd
+      secret:
+        argocdServerAdminPassword: "${admin.password}"
+        argocdServerAdminPasswordMtime: "${admin.passwordMtime}"
