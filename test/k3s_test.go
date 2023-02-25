@@ -67,6 +67,8 @@ func testKubernetes(tempTestFolder string, t *testing.T, host ssh.Host, publicIp
 
 	options := k8s.NewKubectlOptions("", kubeConfigPath, "default")
 	k8s.WaitUntilAllNodesReady(t, options, 30, 15*time.Second)
+
+	// TODO Test for ArgoCD & Dashboard
 }
 
 func fixKubernetesHost(t *testing.T, kubeConfigPath string, publicIp string) {
@@ -125,6 +127,7 @@ func configureTerraformOptions(t *testing.T, tempTestFolder string) (*terraform.
 	return terraformOptions, keyPair
 }
 
+// TODO This must be run on every node!
 func testServiceSetup(t *testing.T, host ssh.Host) {
 
 	// Run a simple echo command on the server

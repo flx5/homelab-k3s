@@ -7,6 +7,10 @@ terraform {
       source  = "poseidon/ct"
       version = "0.11.0"
     }
+    bcrypt = {
+      source = "viktorradnai/bcrypt"
+      version = "0.1.2"
+    }
   }
 }
 
