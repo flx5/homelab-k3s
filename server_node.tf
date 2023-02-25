@@ -1,5 +1,6 @@
 data "ct_config" "coreos-k3s-server" {
   content = templatefile("coreos-k3s.yaml", {
+    ssh_public_key = var.ssh_public_key
     K3S_ARGS = {
       K3S_TOKEN = random_password.k3s_token.result
     }

@@ -5,6 +5,7 @@ passwd:
     - name: core
       ssh_authorized_keys:
         - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPUU3He8bzTfOCMr7cRa+k6hNq8p3dtA8x8MbzyxZmZIyOY5FTtaqZaUeIe0Z61xfctMpPdLZ0N2bu9+iFmmwynLWqLk9MkRDaj/cMolh93ZuVp+QbwRPuS+KOFV0o1WRlLyJbnxQCIwyNAnTlAIebcQuhGzTxqLCA8URKSv/YD5GYS7WV0NX7lpZvfzl5AlOhlU+/4cWOOpGPG+kTDJz1xRwQJ9xsXLvBMhzAmzNGdC8wJTU3QhiYjs+oNu9dQVa6I9vz1nRJrW9kGX+fLfUSRJ1+8X/tauFWndcUv3bu0PbJ/84pWrb9EfUzM4c6wxWoRNvf7Vg2ZCLZdQX96xmOb+ugpFV3XUv80qrjXdDdfP0TG0A5VuLubuA2IQL3l4JXogKP1NxwgfWZ11htZhJgXYm0Gn6c3JxwnFA1u11+FSvdSjHrNkM12mrjW18lpl0Gb1HbHDFAm9oJ08SozzFYD5i9c2IUyTMRsyKqivfRPVlaTeQRUuavIB0IKc2brBk=
+        - ${ssh_public_key}
         
         
 systemd:

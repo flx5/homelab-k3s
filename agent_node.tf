@@ -1,6 +1,7 @@
 
 data "ct_config" "coreos-k3s-agent" {
   content = templatefile("coreos-k3s.yaml", {
+    ssh_public_key = var.ssh_public_key
     K3S_ARGS = {
       K3S_TOKEN = random_password.k3s_token.result
       K3S_URL   = "https://${libvirt_domain.coreos-k3s-server.network_interface.0.addresses.0}:6443"
