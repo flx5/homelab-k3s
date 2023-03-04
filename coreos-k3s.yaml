@@ -60,6 +60,21 @@ systemd:
         
 storage:
   files:
+    # Prevent systemd-resolved from binding to port 53 since we are going to use that ourselves.
+    - path: /etc/systemd/resolved.conf.d/disable-listener.conf
+      contents:
+        inline: |-
+          DNSStubListener=no
+    # The resolv conf must be configured statically for two reasons:
+    # 1. We disabled systemd-resolved above. So until the coredns container has been pulled and installed we don't have a dns server listening on localhost.
+    # 2. The dhcp server will point to one of the k3s nodes anyways for dns resolution because of the self-hosted coredns. So that would result in a loop.
+    # TODO Make nameservers and search domain configurable
+    - path: /etc/resolv.conf
+      overwrite: true
+      contents:
+        inline: |-
+          nameserver 192.168.20.1
+          search fritz.box
     %{ for name, content in MANIFESTS }
     - path: /var/lib/rancher/k3s/server/manifests/${name}.yaml
       contents:

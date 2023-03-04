@@ -1,13 +1,17 @@
 package test
 
 import (
+	"context"
+	"crypto/tls"
 	"fmt"
+	http_helper "github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/gruntwork-io/terratest/modules/retry"
 	"github.com/gruntwork-io/terratest/modules/ssh"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"k8s.io/client-go/tools/clientcmd"
 	"net"
+	"net/http"
 	"net/url"
 	"os"
 	"strings"
@@ -68,7 +72,42 @@ func testKubernetes(tempTestFolder string, t *testing.T, host ssh.Host, publicIp
 	options := k8s.NewKubectlOptions("", kubeConfigPath, "default")
 	k8s.WaitUntilAllNodesReady(t, options, 30, 15*time.Second)
 
-	// TODO Test for ArgoCD & Dashboard
+	dashboardOptions := k8s.NewKubectlOptions("", kubeConfigPath, "kubernetes-dashboard")
+	k8s.WaitUntilIngressAvailable(t, dashboardOptions, "kubernetes-dashboard", 60, 15*time.Second)
+
+	// TODO Verify the dns server is available first and dns lookups can be resolved.
+
+	// Overwrite dns server for default http client
+	dialer := &net.Dialer{
+		Resolver: &net.Resolver{
+			PreferGo: true,
+			Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+				d := net.Dialer{
+					Timeout: 1 * time.Second,
+				}
+				return d.DialContext(ctx, "udp", fmt.Sprintf("%s:53", publicIp))
+			},
+		},
+	}
+
+	dialContext := func(ctx context.Context, network, addr string) (net.Conn, error) {
+		return dialer.DialContext(ctx, network, addr)
+	}
+
+	http.DefaultTransport.(*http.Transport).DialContext = dialContext
+
+	tlsConfig := tls.Config{InsecureSkipVerify: true}
+
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "https://dashboard.k3s.local/", &tlsConfig, 10, 5*time.Second, func(status int, body string) bool {
+		return status == 200 && strings.Contains(body, "<title>Kubernetes Dashboard</title>")
+	})
+
+	argoOptions := k8s.NewKubectlOptions("", kubeConfigPath, "argocd")
+	k8s.WaitUntilIngressAvailable(t, argoOptions, "argocd-server", 60, 15*time.Second)
+
+	http_helper.HttpGetWithRetryWithCustomValidation(t, "https://argocd.k3s.local/", &tlsConfig, 10, 5*time.Second, func(status int, body string) bool {
+		return status == 200 && strings.Contains(body, "<title>Argo CD</title>")
+	})
 }
 
 func fixKubernetesHost(t *testing.T, kubeConfigPath string, publicIp string) {

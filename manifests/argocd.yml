@@ -27,13 +27,11 @@ spec:
         enabled: true
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
-        paths:
-          - /argocd
+        hosts:
+          - argocd.k3s.local
     configs:
       params:
         "server.insecure": true
-        "server.basehref": /argocd
-        "server.rootpath": /argocd
       secret:
         argocdServerAdminPassword: "${admin.password}"
         argocdServerAdminPasswordMtime: "${admin.passwordMtime}"

@@ -17,7 +17,8 @@ data "ct_config" "coreos-k3s-server" {
     }
     MANIFESTS = {
       dashboard = file("manifests/dashboard.yml")
-      argocd = templatefile("manifests/argocd.yaml", {
+      dns = file("manifests/dns.yml")
+      argocd = templatefile("manifests/argocd.yml", {
         admin = {
           password = bcrypt_hash.argocd_admin_password.id
           passwordMtime = time_static.argocd_admin_password.id

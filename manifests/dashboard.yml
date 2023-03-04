@@ -15,8 +15,8 @@ spec:
   valuesContent: |-
     ingress:
       enabled: true
-      paths:
-        - /dashboard
+      hosts:
+        - dashboard.k3s.local
     protocolHttp: true
     extraArgs:
       - --enable-insecure-login
